@@ -1,5 +1,14 @@
 import { useEffect, useState } from "react";
-
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  
+} from "@/components/ui/alert-dialog"
 import Cell from "./Cell";
 
 function calculateWinner(squares: (string | null)[]) {
@@ -29,10 +38,10 @@ export default function Board() {
   const [winCount, setWinCount] = useState([0, 0])
 
   const winner = calculateWinner(squares);
-  const isDraw = !winner && squares.every(Boolean); // همه پر ولی برنده نداریم
+  const isDraw = !winner && squares.every(Boolean);
 
   const handleClick = (index: number) => {
-    if (squares[index] || winner) return; // اگر خونه پر باشه یا بازی تموم شده باشه
+    if (squares[index] || winner) return; 
     const nextSquares = squares.slice();
     nextSquares[index] = isXNext ? "X" : "O";
     setSquares(nextSquares);
@@ -54,14 +63,79 @@ export default function Board() {
     }
   }, [squares]);
 
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+    useEffect(() => {
+      const winner = calculateWinner(squares);
+      if (winner || (!winner && squares.every(Boolean))) {
+        setDialogOpen(true);
+      }
+    }, [squares]);
+
+
+
   return (
     <div className="flex flex-col items-center">
       <div className="flex items-center gap-2 mb-4 text-lg font-semibold">
-        {(winCount[0] >= 3 || winCount[1] >= 3) && (
-          <div className="bg-amber-600">
-            The winner is NAME
-          </div>
-        )}
+        {winner && winCount[0] < 3 && winCount[1] < 3 && (
+            <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle className="text-center">Player {winner} won!</AlertDialogTitle>
+                  <AlertDialogDescription className="text-white text-center">
+                    Congratulations!
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogAction
+                    className="mx-auto bg-white text-[#a063de]"
+                    onClick={resetBoard}
+                  >
+                    Continue
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          )}
+          {(winCount[0] == 3 || winCount[1] == 3)  &&  (        
+            <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle className="text-center">{winner} won the game!</AlertDialogTitle>
+                  <AlertDialogDescription className="text-white text-center">
+                    Congratulations!
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogAction
+                    className="mx-auto bg-white text-[#a063de]"
+                    onClick={resetBoard}
+                  >
+                    Continue
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          )}
+          {isDraw && (
+                  <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle className="text-center">Draw try again</AlertDialogTitle>
+                  <AlertDialogDescription className="text-white text-center">
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogAction
+                    className="mx-auto bg-white text-[#a063de]"
+                    onClick={resetBoard}
+                  >
+                    try again
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          )}
         <div>
             ali O
         </div>
