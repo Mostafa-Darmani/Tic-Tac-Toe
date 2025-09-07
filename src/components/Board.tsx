@@ -55,7 +55,7 @@ export default function Board() {
     <div className="flex flex-col items-center">
       <div className="mb-4 text-lg font-semibold">{status}</div>
 
-      <div className="grid grid-cols-3 divide-x-4 divide-y-4 divide-white bg-white">
+      <div className="grid grid-cols-3 gap-3 bg-white">
         {squares.map((value, i) => (
           <Cell key={i} value={value} onClick={() => handleClick(i)} />
         ))}
