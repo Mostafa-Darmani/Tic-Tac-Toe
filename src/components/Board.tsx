@@ -75,9 +75,40 @@ export default function Board() {
 
 
   return (
-    <div className="flex flex-col items-center">
-      <div className="flex items-center gap-2 mb-4 text-lg font-semibold">
-        {winner && winCount[0] < 3 && winCount[1] < 3 && (
+    <div className="flex flex-col items-center">        
+        <div className="flex justify-center items-center gap-10 w-full mb-14 mx-auto bg-purple-700 p-3 rounded-2xl">
+          <span className={`${!isXNext ? "bg-[#a063de]  rounded-2xl text-white py-1 px-3 " : "py-1 px-3 text-white"}`}>
+          ali O
+          </span>
+          <span className="flex items-center justify-center bg-white py-1 px-3 text-xl rounded-xl">
+          <span className="text-purple-400">
+            {winCount[1]}
+          </span>
+          <span className="text-purple-400 mx-3"> - </span>
+          <span className="text-purple-400">
+            {winCount[0]}
+          </span>
+          </span>
+          <span className={`${isXNext ? "bg-[#a063de]  rounded-2xl text-white py-1 px-3 " : "py-1 px-3 text-white"}`}>
+            reza X
+          </span>
+        </div>
+
+      <div className="grid grid-cols-3 gap-3 bg-white">
+        {squares.map((value, i) => (
+          <Cell key={i} value={value} onClick={() => handleClick(i)} />
+        ))}
+      </div>
+
+      <button
+        onClick={resetBoard}
+        className="flex justify-center text-center text-2xl font-semibold items-center mt-5 px-7 py-3 bg-white text-[#a063de] rounded-xl transition-colors"
+      >
+        reset
+      </button>
+
+
+      {winner && winCount[0] < 3 && winCount[1] < 3 && (
             <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
               <AlertDialogContent>
                 <AlertDialogHeader>
@@ -136,36 +167,6 @@ export default function Board() {
               </AlertDialogContent>
             </AlertDialog>
           )}
-        <div>
-            ali O
-        </div>
-        <div className="flex items-center justify-center bg-white py-1 px-3 text-xl rounded-lg">
-          
-          <div className="text-purple-400">
-            {winCount[1]}
-          </div>
-          <span className="text-purple-400 mx-3"> - </span>
-          <div className="text-purple-400">
-            {winCount[0]}
-          </div>
-        </div>
-        <div className="">
-            reza X
-        </div>
-      </div>
-
-      <div className="grid grid-cols-3 gap-3 bg-white">
-        {squares.map((value, i) => (
-          <Cell key={i} value={value} onClick={() => handleClick(i)} />
-        ))}
-      </div>
-
-      <button
-        onClick={resetBoard}
-        className="flex justify-center text-center text-2xl font-semibold items-center mt-5 px-7 py-3 bg-white text-[#a063de] rounded-xl transition-colors"
-      >
-        reset
-      </button>
     </div>
   );
 }
