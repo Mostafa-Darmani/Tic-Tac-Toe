@@ -57,8 +57,11 @@ export default function Board() {
   return (
     <div className="flex flex-col items-center">
       <div className="flex items-center gap-2 mb-4 text-lg font-semibold">
-        {winCount[0] > 3 && winCount[1] > 3}
-
+        {(winCount[0] >= 3 || winCount[1] >= 3) && (
+          <div className="bg-amber-600">
+            The winner is NAME
+          </div>
+        )}
         <div>
             ali O
         </div>
@@ -85,7 +88,7 @@ export default function Board() {
 
       <button
         onClick={resetBoard}
-        className="flex justify-center text-center text-4xl font-semibold items-center mt-5 px-7 py-3 bg-white text-[#a063de] rounded-xl transition-colors"
+        className="flex justify-center text-center text-2xl font-semibold items-center mt-5 px-7 py-3 bg-white text-[#a063de] rounded-xl transition-colors"
       >
         reset
       </button>
