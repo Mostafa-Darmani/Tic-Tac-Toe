@@ -52,6 +52,11 @@ export default function Board() {
     setSquares(initialSquares);
     setIsXNext(true);
   };
+  const EndBoard = () => {
+    setSquares(initialSquares);
+    setIsXNext(true);
+    setWinCount([0,0])
+  };
 
   useEffect(() => {
     const winner = calculateWinner(squares);
@@ -72,7 +77,12 @@ export default function Board() {
       }
     }, [squares]);
 
-
+   /* useEffect(()=>{
+      if (winCount[0] === 3 || winCount[1] === 3) {
+          setWinCount([0,0]) 
+      }
+    },[winCount]
+    )*/
 
   return (
     <div className="flex flex-col items-center">        
@@ -80,7 +90,7 @@ export default function Board() {
           <span className={`${!isXNext ? "bg-[#a063de]  rounded-2xl text-white py-1 px-3 " : "py-1 px-3 text-white"}`}>
           ali O
           </span>
-          <span className="flex items-center justify-center bg-white py-1 px-3 text-xl rounded-xl">
+          <div className="flex items-center justify-center bg-white py-1 px-3 text-xl rounded-xl">
           <span className="text-purple-400">
             {winCount[1]}
           </span>
@@ -88,7 +98,7 @@ export default function Board() {
           <span className="text-purple-400">
             {winCount[0]}
           </span>
-          </span>
+          </div>
           <span className={`${isXNext ? "bg-[#a063de]  rounded-2xl text-white py-1 px-3 " : "py-1 px-3 text-white"}`}>
             reza X
           </span>
@@ -102,7 +112,7 @@ export default function Board() {
 
       <button
         onClick={resetBoard}
-        className="flex justify-center text-center text-2xl font-semibold items-center mt-5 px-7 py-3 bg-white text-[#a063de] rounded-xl transition-colors"
+        className="flex justify-center text-center text-2xl font-semibold items-center mt-5 px-7 py-3 bg-white text-[#a063de] rounded-xl transition-colors cursor-pointer"
       >
         reset
       </button>
@@ -128,21 +138,21 @@ export default function Board() {
               </AlertDialogContent>
             </AlertDialog>
           )}
-          {(winCount[0] == 3 || winCount[1] == 3)  &&  (        
+          {(winCount[0] === 3 || winCount[1] === 3)  &&  (        
             <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
               <AlertDialogContent>
                 <AlertDialogHeader>
                   <AlertDialogTitle className="text-center">{winner} won the game!</AlertDialogTitle>
                   <AlertDialogDescription className="text-white text-center">
-                    Congratulations!
+                    Congratulations!                    
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogAction
                     className="mx-auto bg-white text-[#a063de]"
-                    onClick={resetBoard}
+                    onClick={EndBoard}
                   >
-                    Continue
+                    Start New Game
                   </AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
