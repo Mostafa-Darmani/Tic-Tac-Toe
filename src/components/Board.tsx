@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
 import Cell from "./Cell";
 
 function calculateWinner(squares: (string | null)[]) {
@@ -25,6 +26,7 @@ export default function Board() {
 
   const [squares, setSquares] = useState(initialSquares);
   const [isXNext, setIsXNext] = useState(true);
+  const [winCount, setWinCount] = useState([0, 0])
 
   const winner = calculateWinner(squares);
   const isDraw = !winner && squares.every(Boolean); // همه پر ولی برنده نداریم
@@ -42,28 +44,32 @@ export default function Board() {
     setIsXNext(true);
   };
 
-  let status;
-  if (winner) {
-    status = `برنده: ${winner}`;
-  } else if (isDraw) {
-    status = "بازی مساوی شد!";
-  } else {
-    status = `نوبت: ${isXNext ? "X" : "O"}`;
-  }
+  useEffect(() => {
+    const winner = calculateWinner(squares);
+
+    if (winner === "X") {
+      setWinCount(([xWins, oWins]) => [xWins + 1, oWins]);
+    } else if (winner === "O") {
+      setWinCount(([xWins, oWins]) => [xWins, oWins + 1]);
+    }
+  }, [squares]);
 
   return (
     <div className="flex flex-col items-center">
       <div className="flex items-center gap-2 mb-4 text-lg font-semibold">
+        {winCount[0] > 3 && winCount[1] > 3}
+
         <div>
             ali O
         </div>
         <div className="flex items-center justify-center bg-white py-1 px-3 text-xl rounded-lg">
+          
           <div className="text-purple-400">
-            2
+            {winCount[1]}
           </div>
           <span className="text-purple-400 mx-3"> - </span>
           <div className="text-purple-400">
-            1
+            {winCount[0]}
           </div>
         </div>
         <div className="">
