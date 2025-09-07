@@ -8,12 +8,12 @@ export default function Cell({ value, onClick }: CellProps) {
     <div
       onClick={onClick}
       className={`
-        bg-[#a01c83] w-24 h-24
+        bg-[#a063de] w-24 h-24
         flex items-center justify-center 
-        text-4xl font-bold
+        text-7xl font-bold
         transition-all duration-200
-        ${value === "X" ? "text-blue-600" : value === "O" ? "text-red-600" : "text-gray-800"}
-        hover:scale-105 cursor-pointer
+        text-white
+        cursor-pointer
       `}
     >
       {value}

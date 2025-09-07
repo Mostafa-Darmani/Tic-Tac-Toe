@@ -53,7 +53,7 @@ export default function Board() {
 
   return (
     <div className="flex flex-col items-center">
-      <div className="mb-4 text-lg font-semibold">{status}</div>
+      <div className=" mb-4 text-lg font-semibold">{status}</div>
 
       <div className="grid grid-cols-3 gap-3 bg-white">
         {squares.map((value, i) => (
@@ -63,7 +63,7 @@ export default function Board() {
 
       <button
         onClick={resetBoard}
-        className="mt-5 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+        className="flex justify-center items-center mt-5 p-3 bg-white text-[#a063de] rounded-xl transition-colors"
       >
         ریست بورد
       </button>
