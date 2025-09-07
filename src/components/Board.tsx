@@ -57,11 +57,11 @@ export default function Board() {
         <div>
             ali O
         </div>
-        <div className="flex items-center bg-white p-3">
+        <div className="flex items-center justify-center bg-white py-1 px-3 text-xl rounded-lg">
           <div className="text-purple-400">
             2
           </div>
-          <span className="text-purple-400"> - </span>
+          <span className="text-purple-400 mx-3"> - </span>
           <div className="text-purple-400">
             1
           </div>
@@ -79,9 +79,9 @@ export default function Board() {
 
       <button
         onClick={resetBoard}
-        className="flex justify-center items-center mt-5 p-3 bg-white text-[#a063de] rounded-xl transition-colors"
+        className="flex justify-center text-center text-4xl font-semibold items-center mt-5 px-7 py-3 bg-white text-[#a063de] rounded-xl transition-colors"
       >
-        ریست بورد
+        reset
       </button>
     </div>
   );
