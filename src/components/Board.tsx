@@ -53,7 +53,23 @@ export default function Board() {
 
   return (
     <div className="flex flex-col items-center">
-      <div className=" mb-4 text-lg font-semibold">{status}</div>
+      <div className="flex items-center gap-2 mb-4 text-lg font-semibold">
+        <div>
+            ali O
+        </div>
+        <div className="flex items-center bg-white p-3">
+          <div className="text-purple-400">
+            2
+          </div>
+          <span className="text-purple-400"> - </span>
+          <div className="text-purple-400">
+            1
+          </div>
+        </div>
+        <div className="">
+            reza X
+        </div>
+      </div>
 
       <div className="grid grid-cols-3 gap-3 bg-white">
         {squares.map((value, i) => (
