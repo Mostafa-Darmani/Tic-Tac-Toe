@@ -45,6 +45,8 @@ export default function Board() {
   const [playerO, setPlayerO] = useState<string>('');
   const [totalWin, setTotalWin] = useState([0, 0])
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [alert, setAlert] = useState(false);
+
   const navigate = useNavigate();
 
 
@@ -142,11 +144,11 @@ export default function Board() {
       </div>
       <div className="flex justify-between items-center w-full mt-12">   
         <button
-          onClick={NewBoard}
+          onClick={() => setDialogOpen(true)}
           className="p-4 bg-white text-background font-semibold rounded-2xl transition-colors cursor-pointer text-xl"
           
         >
-          Start New Game
+          End this Game
         </button>
         <button
           onClick={resetBoard}
@@ -227,6 +229,35 @@ export default function Board() {
               </AlertDialogContent>
             </AlertDialog>
           )}
+
+          {dialogOpen && (
+            <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle className="text-center">Are you sure you want to end this game ??</AlertDialogTitle>
+                  <AlertDialogDescription className="text-white text-center">
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter className="flex flex-col">
+                  <AlertDialogAction
+                      className="mx-auto bg-white text-background"
+                      onClick={() => setDialogOpen(false)}
+                    >
+                      cancel
+                   </AlertDialogAction>
+                    <AlertDialogAction
+                      className="mx-auto bg-white text-background"
+                      onClick={NewBoard}
+                    >
+                      End this Game
+                    </AlertDialogAction>                    
+                  </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          )}
+
+
+
     </div>
   );
 }
