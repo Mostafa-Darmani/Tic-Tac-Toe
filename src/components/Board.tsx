@@ -45,7 +45,6 @@ export default function Board() {
   const [playerO, setPlayerO] = useState<string>('');
   const [totalWin, setTotalWin] = useState([0, 0])
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [alert, setAlert] = useState(false);
 
   const navigate = useNavigate();
 
