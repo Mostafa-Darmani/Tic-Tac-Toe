@@ -1,14 +1,16 @@
-import './App.css'
-import Board from './components/Board'
-
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Welcome from "./pages/welcome";
+import Game from "./pages/Game";
 
 function App() {
-
   return (
-    <div className='flex justify-center items-center min-h-screen'>
-      <Board/>
-    </div>
-  )
+    <Router>
+      <Routes>
+        <Route path="/" element={<Welcome />} />
+        <Route path="/game" element={<Game />} />
+      </Routes>
+    </Router>
+  );
 }
 
-export default App
+export default App;
