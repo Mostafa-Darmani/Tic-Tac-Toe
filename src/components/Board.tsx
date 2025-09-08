@@ -45,6 +45,7 @@ export default function Board() {
   const [playerO, setPlayerO] = useState<string>('');
   const [totalWin, setTotalWin] = useState([0, 0])
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [alert, setAlert] = useState(false)
 
   const navigate = useNavigate();
 
@@ -143,7 +144,7 @@ export default function Board() {
       </div>
       <div className="flex justify-between items-center w-full mt-12">   
         <button
-          onClick={() => setDialogOpen(true)}
+          onClick={() => setAlert(true)}
           className="p-4 bg-white text-background font-semibold rounded-2xl transition-colors cursor-pointer text-xl"
           
         >
@@ -213,7 +214,7 @@ export default function Board() {
                   <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
               <AlertDialogContent>
                 <AlertDialogHeader>
-                  <AlertDialogTitle className="text-center">Draw try again</AlertDialogTitle>
+                  <AlertDialogTitle className="text-center">Draw!?</AlertDialogTitle>
                   <AlertDialogDescription className="text-white text-center">
                   </AlertDialogDescription>
                 </AlertDialogHeader>
@@ -229,8 +230,8 @@ export default function Board() {
             </AlertDialog>
           )}
 
-          {dialogOpen && (
-            <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
+          {alert && (
+            <AlertDialog open={alert} onOpenChange={setAlert}>
               <AlertDialogContent>
                 <AlertDialogHeader>
                   <AlertDialogTitle className="text-center">Are you sure you want to end this game ??</AlertDialogTitle>
@@ -240,7 +241,7 @@ export default function Board() {
                 <AlertDialogFooter className="flex flex-col">
                   <AlertDialogAction
                       className="mx-auto bg-white text-background"
-                      onClick={() => setDialogOpen(false)}
+                      onClick={() => setAlert(false)}
                     >
                       cancel
                    </AlertDialogAction>
@@ -254,9 +255,6 @@ export default function Board() {
               </AlertDialogContent>
             </AlertDialog>
           )}
-
-
-
     </div>
   );
 }
