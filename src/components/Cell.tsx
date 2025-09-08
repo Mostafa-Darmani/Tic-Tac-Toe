@@ -8,7 +8,7 @@ export default function Cell({ value, onClick }: CellProps) {
     <div
       onClick={onClick}
       className={`
-        bg-[#a063de] w-24 h-24
+        bg-background w-24 h-24
         flex items-center justify-center 
         text-7xl font-bold
         transition-all duration-200

@@ -10,6 +10,7 @@ import {
   
 } from "@/components/ui/alert-dialog"
 import Cell from "./Cell";
+import WinEffect from "./WinEffect"
 
 function calculateWinner(squares: (string | null)[]) {
   const lines = [
@@ -77,20 +78,13 @@ export default function Board() {
       }
     }, [squares]);
 
-   /* useEffect(()=>{
-      if (winCount[0] === 3 || winCount[1] === 3) {
-          setWinCount([0,0]) 
-      }
-    },[winCount]
-    )*/
-
   return (
-    <div className="flex flex-col items-center">        
-        <div className="flex justify-center items-center gap-10 w-full mb-14 mx-auto bg-purple-700 p-3 rounded-2xl">
-          <span className={`${!isXNext ? "bg-[#a063de]  rounded-2xl text-white py-1 px-3 " : "py-1 px-3 text-white"}`}>
+    <div className="flex-center flex-col">        
+        <div className="flex-center gap-10 w-full mb-14 mx-auto bg-purple-700 p-3 rounded-2xl">
+          <span className={`${!isXNext ? "bg-background  rounded-2xl text-white py-1 px-3 " : "py-1 px-3 text-white"}`}>
           ali O
           </span>
-          <div className="flex items-center justify-center bg-white py-1 px-3 text-xl rounded-xl">
+          <div className="flex-center bg-white py-1 px-3 text-xl rounded-xl">
           <span className="text-purple-400">
             {winCount[1]}
           </span>
@@ -99,7 +93,7 @@ export default function Board() {
             {winCount[0]}
           </span>
           </div>
-          <span className={`${isXNext ? "bg-[#a063de]  rounded-2xl text-white py-1 px-3 " : "py-1 px-3 text-white"}`}>
+          <span className={`${isXNext ? "bg-background  rounded-2xl text-white py-1 px-3 " : "py-1 px-3 text-white"}`}>
             reza X
           </span>
         </div>
@@ -112,7 +106,7 @@ export default function Board() {
 
       <button
         onClick={resetBoard}
-        className="flex justify-center text-center text-2xl font-semibold items-center mt-5 px-7 py-3 bg-white text-[#a063de] rounded-xl transition-colors cursor-pointer"
+        className="flex-center text-center text-2xl font-semibold mt-5 px-7 py-3 bg-white text-background rounded-xl transition-colors cursor-pointer"
       >
         reset
       </button>
@@ -129,7 +123,7 @@ export default function Board() {
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogAction
-                    className="mx-auto bg-white text-[#a063de]"
+                    className="mx-auto bg-white text-background"
                     onClick={resetBoard}
                   >
                     Continue
@@ -139,24 +133,30 @@ export default function Board() {
             </AlertDialog>
           )}
           {(winCount[0] === 3 || winCount[1] === 3)  &&  (        
-            <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle className="text-center">{winner} won the game!</AlertDialogTitle>
-                  <AlertDialogDescription className="text-white text-center">
-                    Congratulations!                    
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogAction
-                    className="mx-auto bg-white text-[#a063de]"
-                    onClick={EndBoard}
-                  >
-                    Start New Game
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
+            <>
+              {dialogOpen && <WinEffect />}
+
+              <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle className="text-center">
+                      {winner} won the game!
+                    </AlertDialogTitle>
+                    <AlertDialogDescription className="text-white text-center">
+                      Congratulations!
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogAction
+                      className="mx-auto bg-white text-background"
+                      onClick={EndBoard}
+                    >
+                      Start New Game
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            </>
           )}
           {isDraw && (
                   <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
@@ -168,7 +168,7 @@ export default function Board() {
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogAction
-                    className="mx-auto bg-white text-[#a063de]"
+                    className="mx-auto bg-white text-background"
                     onClick={resetBoard}
                   >
                     try again
