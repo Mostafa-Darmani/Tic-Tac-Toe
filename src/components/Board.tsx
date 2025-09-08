@@ -11,6 +11,10 @@ import {
 } from "@/components/ui/alert-dialog"
 import Cell from "./Cell";
 import WinEffect from "./WinEffect"
+import { useNavigate } from 'react-router-dom';
+import { RotateCcw } from 'lucide-react';
+
+
 
 function calculateWinner(squares: (string | null)[]) {
   const lines = [
@@ -37,6 +41,10 @@ export default function Board() {
   const [squares, setSquares] = useState(initialSquares);
   const [isXNext, setIsXNext] = useState(true);
   const [winCount, setWinCount] = useState([0, 0])
+  const [playerX, setPlayerX] = useState<string>('');
+  const [playerO, setPlayerO] = useState<string>('');
+  const navigate = useNavigate();
+
 
   const winner = calculateWinner(squares);
   const isDraw = !winner && squares.every(Boolean);
@@ -59,6 +67,18 @@ export default function Board() {
     setWinCount([0,0])
   };
 
+  const NewBoard = () => {
+    navigate('/'),
+    localStorage.clear()
+  };
+
+  useEffect(() => {
+    const savedX = localStorage.getItem('playerX');
+    const savedO = localStorage.getItem('playerO');
+    if (savedX) setPlayerX(savedX);
+    if (savedO) setPlayerO(savedO);
+  }, []);
+
   useEffect(() => {
     const winner = calculateWinner(squares);
 
@@ -78,13 +98,15 @@ export default function Board() {
       }
     }, [squares]);
 
+    
+
   return (
     <div className="flex-center flex-col">        
-        <div className="flex-center gap-10 w-full mb-14 mx-auto bg-purple-700 p-3 rounded-2xl">
+        <div className="flex items-center justify-between gap-10 w-[300px] mb-14 mx-auto bg-purple-700 p-3 rounded-2xl relative">
           <span className={`${!isXNext ? "bg-background  rounded-2xl text-white py-1 px-3 " : "py-1 px-3 text-white"}`}>
-          ali O
+          {playerO} O
           </span>
-          <div className="flex-center bg-white py-1 px-3 text-xl rounded-xl">
+          <div className="flex-center absolute left-1/2 -translate-1/2 top-0 bg-white py-1 px-3 text-xl rounded-xl">
           <span className="text-purple-400">
             {winCount[1]}
           </span>
@@ -94,7 +116,7 @@ export default function Board() {
           </span>
           </div>
           <span className={`${isXNext ? "bg-background  rounded-2xl text-white py-1 px-3 " : "py-1 px-3 text-white"}`}>
-            reza X
+            {playerX} X
           </span>
         </div>
 
@@ -103,14 +125,21 @@ export default function Board() {
           <Cell key={i} value={value} onClick={() => handleClick(i)} />
         ))}
       </div>
-
-      <button
-        onClick={resetBoard}
-        className="flex-center text-center text-2xl font-semibold mt-5 px-7 py-3 bg-white text-background rounded-xl transition-colors cursor-pointer"
-      >
-        reset
-      </button>
-
+      <div className="flex justify-between items-center w-full mt-12">   
+        <button
+          onClick={NewBoard}
+          className="p-4 bg-white text-background font-semibold rounded-2xl transition-colors cursor-pointer text-xl"
+          
+        >
+          Start New Game
+        </button>
+        <button
+          onClick={resetBoard}
+          className=" p-4 bg-white text-background rounded-2xl transition-colors cursor-pointer"
+        >
+          <RotateCcw size={32} />
+        </button>
+      </div>
 
       {winner && winCount[0] < 3 && winCount[1] < 3 && (
             <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
@@ -146,12 +175,18 @@ export default function Board() {
                       Congratulations!
                     </AlertDialogDescription>
                   </AlertDialogHeader>
-                  <AlertDialogFooter>
+                  <AlertDialogFooter className="flex flex-col">
+                    <AlertDialogAction
+                      className="mx-auto bg-white text-background"
+                      onClick={NewBoard}
+                    >
+                      Start New Game
+                    </AlertDialogAction>
                     <AlertDialogAction
                       className="mx-auto bg-white text-background"
                       onClick={EndBoard}
                     >
-                      Start New Game
+                      Try Again
                     </AlertDialogAction>
                   </AlertDialogFooter>
                 </AlertDialogContent>

@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Welcome from "./pages/welcome";
+import Welcome from "./pages/Welcome";
 import Game from "./pages/Game";
 
 function App() {

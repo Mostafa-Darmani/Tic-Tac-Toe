@@ -33,15 +33,16 @@ export default function Welcome() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen text-white bg-background">
-      <h1 className='text-6xl font-bold mb-8'>Welcome</h1>
-      <p className='text-2xl mb-8'>Press start to play!</p>
-      <button
-        className='bg-white text-gray-800 text-2xl px-7 py-2 rounded-2xl font-bold hover:bg-gray-100 transition transform hover:scale-105 active:scale-95'
-        onClick={() => setAlert(true)}
-      >
-        start
-      </button>
+    <div className="flex justify-center min-h-screen text-white bg-background mt-10">
+      <div className='flex flex-col items-center m-12 md:my-auto'>      
+        <h1 className='text-6xl font-bold leading-18'>Lets play the <br/>Tic-Tac-Toe Game !</h1>
+        <button
+          className='bg-white text-gray-800 text-2xl px-7 py-2 rounded-3xl font-bold hover:bg-gray-100 transition transform hover:scale-105 active:scale-95 mt-14 max-w-[350px] '
+          onClick={() => setAlert(true)}
+        >
+          Start New Game
+        </button>
+      </div>
 
       {alert && (
         <AlertDialog open={alert} onOpenChange={setAlert}>
@@ -66,10 +67,10 @@ export default function Welcome() {
               </div>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel className="bg-gray-600 hover:bg-gray-700 text-white">Cancel</AlertDialogCancel>
+              <AlertDialogCancel className="bg-primary-btn text-white">Cancel</AlertDialogCancel>
               <AlertDialogAction
                 onClick={handleContinue}
-                className="bg-blue-600 hover:bg-blue-700 text-white"
+                className="bg-white text-background"
               >
                 Continue
               </AlertDialogAction>
