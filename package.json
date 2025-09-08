@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://mostafa-darmani.github.io/Tic-tak-toe/",
+  "homepage": "https://mostafa-darmani.github.io/Tic-Tac-Toe/",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

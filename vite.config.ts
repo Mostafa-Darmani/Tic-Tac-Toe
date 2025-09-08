@@ -4,7 +4,7 @@ import react from "@vitejs/plugin-react"
 import { defineConfig } from "vite"
 
 export default defineConfig({
-  base: "/Tic-tak-toe",
+  base: "/Tic-Tac-Toe",
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
