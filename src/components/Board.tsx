@@ -3,6 +3,7 @@ import Cell from "./Cell";
 import WinEffect from "./WinEffect";
 import { useNavigate } from "react-router-dom";
 import { RotateCcw } from "lucide-react";
+import TurnTimer from "./TurnTimer";
 
 // مودال‌ها
 import WinnerModal from "./modals/WinnerModal";
@@ -42,14 +43,34 @@ export default function Board() {
   const [totalWin, setTotalWin] = useState([0, 0]);
   const [modalType, setModalType] = useState<ModalType>(null);
 
+  // ⏱️ تایمر
+  const [timerId, setTimerId] = useState<NodeJS.Timeout | null>(null);
+
   const navigate = useNavigate();
 
   const winner = calculateWinner(squares);
   const isDraw = !winner && squares.every(Boolean);
 
+  // انتخاب تصادفی
+  const makeRandomMove = () => {
+    const emptySquares: number[] = [];
+    squares.forEach((val, idx) => {
+      if (val === null) emptySquares.push(idx);
+    });
+
+    if (emptySquares.length === 0) return;
+
+    const randomIndex =
+      emptySquares[Math.floor(Math.random() * emptySquares.length)];
+    handleClick(randomIndex);
+  };
+
   // کلیک روی خانه
   const handleClick = (index: number) => {
     if (squares[index] || winner) return;
+
+    if (timerId) clearTimeout(timerId); // وقتی بازیکن حرکت کرد، تایمر پاک کن
+
     const nextSquares = squares.slice();
     nextSquares[index] = isXNext ? "X" : "O";
     setSquares(nextSquares);
@@ -101,15 +122,29 @@ export default function Board() {
   useEffect(() => {
     if (winner) {
       if (winCount[0] === 2 || winCount[1] === 2) {
-        // دست سوم => بازی نهایی
-        setModalType("final");
+        setModalType("final"); // بازی نهایی
       } else {
-        setModalType("winner");
+        setModalType("winner"); // برنده یک دست
       }
     } else if (isDraw) {
-      setModalType("draw");
+      setModalType("draw"); // مساوی
     }
   }, [squares]);
+
+  // ⏱️ مدیریت تایمر برای حرکت خودکار
+  useEffect(() => {
+    if (winner || isDraw) return; // اگه بازی تموم شده، نیازی به تایمر نیست
+
+    const id = setTimeout(() => {
+      makeRandomMove();
+    }, 5000); // هر بازیکن ۵ ثانیه وقت داره
+
+    setTimerId(id);
+
+    return () => {
+      if (timerId) clearTimeout(timerId);
+    };
+  }, [isXNext, squares]);
 
   return (
     <div className="flex-center flex-col">
@@ -118,6 +153,13 @@ export default function Board() {
         <div className="p-5 bg-white w-fit rounded-full">{totalWin[1]}</div>
         <div className="p-5 bg-white w-fit rounded-full">{totalWin[0]}</div>
       </div>
+      
+      {/* تایمر */}
+      <TurnTimer
+        duration={5000}
+        trigger={isXNext ? 1 : 0} // تغییر نوبت باعث ریست تایمر میشه
+        onTimeout={makeRandomMove}
+      />
 
       {/* بازیکن‌ها + امتیاز دست جاری */}
       <div className="flex items-center justify-between gap-10 w-[300px] mb-14 mx-auto bg-purple-700 p-3 rounded-2xl relative border-4">

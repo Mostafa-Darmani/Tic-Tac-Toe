@@ -4,7 +4,7 @@ import Game from "./pages/Game";
 
 function App() {
   return (
-    <Router basename="/Tic-tac-toe">
+    <Router basename="/Tic-Tac-Toe">
       <Routes>
         <Route path="/" element={<Welcome />} />
         <Route path="/game" element={<Game />} />
