@@ -43,6 +43,8 @@ export default function Board() {
   const [winCount, setWinCount] = useState([0, 0])
   const [playerX, setPlayerX] = useState<string>('');
   const [playerO, setPlayerO] = useState<string>('');
+  const [totalWin, setTotalWin] = useState([0, 0])
+  const [dialogOpen, setDialogOpen] = useState(false);
   const navigate = useNavigate();
 
 
@@ -61,15 +63,20 @@ export default function Board() {
     setSquares(initialSquares);
     setIsXNext(true);
   };
-  const EndBoard = () => {
+  const WinBoard = () => {
     setSquares(initialSquares);
     setIsXNext(true);
-    setWinCount([0,0])
+     if (winner === "X") {
+      setTotalWin([totalWin[0] + 1, totalWin[1]]);
+    } else if (winner === "O") {
+      setTotalWin([totalWin[0], totalWin[1] + 1]);
+    }
+    setWinCount([0,0])    
   };
 
   const NewBoard = () => {
     navigate('/'),
-    localStorage.clear()
+    localStorage.clear()    
   };
 
   useEffect(() => {
@@ -83,14 +90,14 @@ export default function Board() {
     const winner = calculateWinner(squares);
 
     if (winner === "X") {
-      setWinCount(([xWins, oWins]) => [xWins + 1, oWins]);
+     setWinCount([winCount[0] + 1, winCount[1]]);
+
     } else if (winner === "O") {
-      setWinCount(([xWins, oWins]) => [xWins, oWins + 1]);
+      setWinCount([winCount[0] , winCount[1] + 1]);
+
     }
   }, [squares]);
-
-  const [dialogOpen, setDialogOpen] = useState(false);
-
+  
     useEffect(() => {
       const winner = calculateWinner(squares);
       if (winner || (!winner && squares.every(Boolean))) {
@@ -101,8 +108,16 @@ export default function Board() {
     
 
   return (
-    <div className="flex-center flex-col">        
-        <div className="flex items-center justify-between gap-10 w-[300px] mb-14 mx-auto bg-purple-700 p-3 rounded-2xl relative">
+    <div className="flex-center flex-col"> 
+    <div className="flex justify-between gap-42 mx-auto items-center p-1 mb-5 ">
+          <div className="p-5 bg-white w-fit rounded-full">
+            {totalWin[1]}
+          </div>
+          <div className="p-5 bg-white w-fit rounded-full">
+            {totalWin[0]}
+          </div>
+        </div>           
+        <div className="flex items-center justify-between gap-10 w-[300px] mb-14 mx-auto bg-purple-700 p-3 rounded-2xl relative border-4">
           <span className={`${!isXNext ? "bg-background  rounded-2xl text-white py-1 px-3 " : "py-1 px-3 text-white"}`}>
           {playerO} O
           </span>
@@ -117,7 +132,7 @@ export default function Board() {
           </div>
           <span className={`${isXNext ? "bg-background  rounded-2xl text-white py-1 px-3 " : "py-1 px-3 text-white"}`}>
             {playerX} X
-          </span>
+          </span>          
         </div>
 
       <div className="grid grid-cols-3 gap-3 bg-white">
@@ -184,9 +199,9 @@ export default function Board() {
                     </AlertDialogAction>
                     <AlertDialogAction
                       className="mx-auto bg-white text-background"
-                      onClick={EndBoard}
+                      onClick={WinBoard}
                     >
-                      Try Again
+                      continue 
                     </AlertDialogAction>
                   </AlertDialogFooter>
                 </AlertDialogContent>
