@@ -1,9 +1,9 @@
 {
-  "name": "tic-tac-toe",
+  "name": "tic-tak-toe",
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://mostafa-darmani.github.io/Tic-tac-toe/",
+  "homepage": "https://mostafa-darmani.github.io/Tic-tak-toe/",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
