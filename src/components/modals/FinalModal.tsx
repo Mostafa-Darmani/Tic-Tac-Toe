@@ -10,6 +10,9 @@ import {
 
 interface FinalModalProps {
   winner: string | null;
+  totalwin: Array<number>;
+  playerX: string;
+  playerO: string;
   open: boolean;
   onClose: () => void;
   onNewGame: () => void;
@@ -18,6 +21,9 @@ interface FinalModalProps {
 
 export default function FinalModal({
   winner,
+  totalwin,
+  playerX,
+  playerO,
   open,
   onClose,
   onNewGame,
@@ -30,7 +36,10 @@ export default function FinalModal({
           <AlertDialogTitle className="text-center">
             {winner} won the game!
           </AlertDialogTitle>
-          <AlertDialogDescription></AlertDialogDescription>
+          <AlertDialogDescription className="text-lg">
+            {playerX || "X"} won {totalwin[0]} times.
+            {playerO || "O"} won {totalwin[1]} times.
+          </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter className="flex flex-col">
           <AlertDialogAction

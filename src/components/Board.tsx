@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import Cell from "./Cell";
 import WinEffect from "./WinEffect";
 import { useNavigate } from "react-router-dom";
-import { RotateCcw } from "lucide-react";
-import { Timer } from 'lucide-react';
+import { RotateCcw, Timer, TimerOff } from "lucide-react";
 import TurnTimer from "./TurnTimer";
 
 // مودال‌ها
@@ -51,13 +50,14 @@ export default function Board() {
   const winner = calculateWinner(squares);
   const isDraw = !winner && squares.every(Boolean);
   const isGameStarted =
-    !squares.every((square) => square === null) && !winner && !isDraw;
+    showTimer && !winner && !isDraw;
 
   const handleShowTimer = () => {
     setShowTimer(!showTimer)
   }
   // انتخاب تصادفی
   const makeRandomMove = () => {
+    if (!showTimer) return;
     const emptySquares: number[] = [];
     squares.forEach((val, idx) => {
       if (val === null) emptySquares.push(idx);
@@ -90,15 +90,16 @@ export default function Board() {
 
   // ریست کامل بعد از یک گیم
   const WinBoard = () => {
-    setSquares(initialSquares);
-    setIsXNext(true);
-    if (winner === "X") {
-      setTotalWin([totalWin[0] + 1, totalWin[1]]);
-    } else if (winner === "O") {
-      setTotalWin([totalWin[0], totalWin[1] + 1]);
-    }
-    setWinCount([0, 0]);
-  };
+  setSquares(initialSquares);
+  setIsXNext(true);
+
+  setTotalWin(([x, o]) => {
+    if (winner === "X") return [x + 1, o];
+    if (winner === "O") return [x, o + 1];
+    return [x, o]; // اگر مساوی بود
+  });
+  setWinCount([0, 0]);
+};
 
   // شروع بازی جدید کامل
   const NewBoard = () => {
@@ -121,7 +122,7 @@ export default function Board() {
     } else if (winner === "O") {
       setWinCount([winCount[0], winCount[1] + 1]);
     }
-  }, [squares]);
+  }, [winner]);
 const maxWin:number = parseInt(localStorage.getItem("maxWin") || "3", 10);
   // باز کردن مودال‌ها
   useEffect(() => {
@@ -139,7 +140,7 @@ const maxWin:number = parseInt(localStorage.getItem("maxWin") || "3", 10);
   // ⏱️ مدیریت تایمر برای حرکت خودکار
 
   useEffect(() => {
-    if (!showTimer || winner || isDraw || squares.every((square) => square === null)) return; // اگه بازی تموم شده، نیازی به تایمر نیست
+    if (showTimer || winner || isDraw || squares.every((square) => square === null)) return; // اگه بازی تموم شده، نیازی به تایمر نیست
     const id = setTimeout(() => {
       makeRandomMove();
     }, 5000); // هر بازیکن ۵ ثانیه وقت داره
@@ -180,12 +181,17 @@ const maxWin:number = parseInt(localStorage.getItem("maxWin") || "3", 10);
         </span>
       </div>
       {/* تایمر */}
-      <TurnTimer
-        duration={5000}
-        trigger={isXNext ? 1 : 0} // تغییر نوبت باعث ریست تایمر میشه
-        onTimeout={makeRandomMove}
-        isGameStarted={isGameStarted}
-      />
+      {showTimer ? 
+        (<TurnTimer
+          duration={5000}
+          trigger={isXNext ? 1 : 0} // تغییر نوبت باعث ریست تایمر میشه
+          onTimeout={makeRandomMove}
+          isGameStarted={isGameStarted}
+        />
+        )
+      :
+      <div className="my-5"></div>
+      }
 
       {/* خانه‌های بازی */}
       <div className="grid grid-cols-3 gap-3 bg-white">
@@ -202,12 +208,24 @@ const maxWin:number = parseInt(localStorage.getItem("maxWin") || "3", 10);
         >
           End this Game
         </button>
+        {showTimer ? (
+          <button
+          onClick={handleShowTimer}
+          className="text-background rounded-2xl bg-white p-4"
+        >
+          <TimerOff size={32} />
+        </button>
+        )
+        :
+        (
         <button
           onClick={handleShowTimer}
           className="text-background rounded-2xl bg-white p-4"
         >
           <Timer size={32} />
         </button>
+        )
+        }
         <button
           onClick={resetBoard}
           className="text-background rounded-2xl bg-white p-4"
@@ -232,6 +250,9 @@ const maxWin:number = parseInt(localStorage.getItem("maxWin") || "3", 10);
 
       <FinalModal
         winner={winner}
+        totalwin={totalWin}
+        playerX={playerX}
+        playerO={playerO}
         open={modalType === "final"}
         onClose={() => setModalType(null)}
         onNewGame={NewBoard}
