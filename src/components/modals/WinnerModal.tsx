@@ -18,21 +18,17 @@ interface WinnerModalProps {
 }
 
 export default function WinnerModal({ winner, open, onClose, onReset, playerX ,playerO }: WinnerModalProps) {
+  const handleWinner = () => {
+    if (winner === "X") return playerX || winner
+    else return playerO || winner
+    }
   return (
     <AlertDialog open={open} onOpenChange={onClose}>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle className="text-center text-primary-foreground">
-            {playerX ? (
-                <span> {playerX} </span>
-            ) : (
-              <span> {winner} </span>          
-            )} 
-            {playerO ? (
-                <span> {playerO} </span>
-            ) : (
-              <span> {winner} </span>          
-            )} 
+            {handleWinner()}
+            <br/>
             won this round !
           </AlertDialogTitle>
           <AlertDialogDescription className="text-center text-secondary-foreground">
