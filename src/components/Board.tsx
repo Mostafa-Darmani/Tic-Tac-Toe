@@ -43,7 +43,7 @@ export default function Board() {
   const [winCount, setWinCount] = useState([0, 0]);
   const [playerX, setPlayerX] = useState<string>("");
   const [playerO, setPlayerO] = useState<string>("");
-  const [totalWin, setTotalWin] = useState([1, 0]);
+  const [totalWin, setTotalWin] = useState([0, 0]);
   const [modalType, setModalType] = useState<ModalType>(null);
   const [timerId, setTimerId] = useState<NodeJS.Timeout | null>(null);
   const [showTimer, setShowTimer] = useState<boolean>(false);
@@ -93,16 +93,16 @@ export default function Board() {
 
   // ریست کامل بعد از یک گیم
   const WinBoard = () => {
-  setSquares(initialSquares);
-  setIsXNext(true);
+    setSquares(initialSquares);
+    setIsXNext(true);
 
-  setTotalWin(([x, o]) => {
-    if (winner === "X") return [x + 1, o];
-    if (winner === "O") return [x, o + 1];
-    return [x, o]; // اگر مساوی بود
-  });
-  setWinCount([0, 0]);
-};
+    setTotalWin(([x, o]) => {
+      if (winner === "X") return [x + 1, o];
+      if (winner === "O") return [x, o + 1];
+      return [x, o]; // اگر مساوی بود
+    });
+    setWinCount([0, 0]);
+  };
 
   // شروع بازی جدید کامل
   const NewBoard = () => {
@@ -132,6 +132,7 @@ const maxWin:number = parseInt(localStorage.getItem("maxWin") || "3", 10);
     if (winner) {
       if (winCount[0] === maxWin || winCount[1] === maxWin) {
         setModalType("final"); // بازی نهایی
+        WinBoard()
       } else {
         setModalType("winner"); // برنده یک دست
       }
@@ -187,9 +188,9 @@ const maxWin:number = parseInt(localStorage.getItem("maxWin") || "3", 10);
         </div>
         
         <div className="flex-center absolute top-0 left-1/2 -translate-1/2 rounded-xl bg-white px-3 py-1 text-xl">
-          <span className="text-secondary-foreground">{winCount[1]}</span>
-          <span className="mx-3 text-secondary-foreground"> - </span>
           <span className="text-secondary-foreground">{winCount[0]}</span>
+          <span className="mx-3 text-secondary-foreground"> - </span>
+          <span className="text-secondary-foreground">{winCount[1]}</span>
         </div>
         <div
           className={`${
@@ -272,7 +273,7 @@ const maxWin:number = parseInt(localStorage.getItem("maxWin") || "3", 10);
         open={modalType === "final"}
         onClose={() => setModalType(null)}
         onNewGame={NewBoard}
-        onContinue={WinBoard}
+        onContinue={resetBoard}
       />
 
       <EndModal
