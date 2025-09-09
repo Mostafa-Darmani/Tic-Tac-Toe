@@ -215,7 +215,7 @@ const maxWin:number = parseInt(localStorage.getItem("maxWin") || "3", 10);
       </div>
 
       {/* کنترل‌ها */}
-      <div className="mt-12 flex w-full items-center justify-between">
+      <div className="flex w-full items-center justify-between">
         <button
           onClick={() => setModalType("end")}
           className="text-primary-foreground rounded-2xl bg-primary-btn p-4 text-xl font-semibold"

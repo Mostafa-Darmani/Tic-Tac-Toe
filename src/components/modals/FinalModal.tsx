@@ -38,23 +38,13 @@ export default function FinalModal({
           </AlertDialogTitle>
           <AlertDialogDescription className="text-lg flex justify-between items-center w-full gap-5">
 
-            <div className="flex justify-between text-white rounded-xl w-full bg-purple-700 p-3">
-              <div className="w-4/5 text-center">
-              {playerX || "X"} 
-              </div>
-              <div className="w-1/5 bg-white text-purple-700  text-center rounded-xl">
-                {totalwin[0]}
-              </div>
-            </div>
-
-            <div className="flex justify-between text-white rounded-xl w-full bg-purple-700 p-3 ">
-              <div className="w-1/5 bg-white text-purple-700  text-center rounded-xl">              
+            
+            <div className="w-full bg-secondary-btn py-4 text-secondary-foreground text-center rounded-xl">
+              {totalwin[0]} 
+              -
               {totalwin[1]} 
-              </div>
-              <div className="w-4/5 text-white text-center rounded-xl">
-                {playerO || "O"}
-              </div>
-            </div>        
+            </div>
+                 
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter className="flex flex-col">
