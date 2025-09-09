@@ -28,11 +28,11 @@ export default function Welcome() {
   };
 
   return (
-    <div className="flex justify-center min-h-screen text-white bg-background pt-10">
+    <div className="flex justify-center min-h-screen text-primary-foreground bg-background pt-10">
       <div className='flex flex-col items-center m-12 md:my-auto'>      
         <h1 className='text-5xl sm:text-6xl font-bold leading-18'>Lets play the <br/>Tic-Tac-Toe Game !</h1>
         <button
-          className='bg-white text-gray-800 text-2xl px-7 py-2 rounded-3xl font-bold hover:bg-gray-100 transition transform hover:scale-105 active:scale-95 mt-14 max-w-[350px] '
+          className='bg-primary-btn text-primary-foreground text-2xl px-7 py-2 rounded-3xl font-bold hover:bg-secondary-btn hover:text-secondary-foreground transition transform hover:scale-105 active:scale-95 mt-14 max-w-[350px] '
           onClick={() => setAlert(true)}
         >
           Start New Game
@@ -43,7 +43,7 @@ export default function Welcome() {
         <AlertDialog open={alert} onOpenChange={setAlert}>
           <AlertDialogContent className="bg-background">
             <AlertDialogHeader>
-              <AlertDialogTitle className="text-center text-white mb-4">Enter your names:</AlertDialogTitle>
+              <AlertDialogTitle className="text-center mb-4">Enter your names:</AlertDialogTitle>
               <div className='flex flex-col items-center'>
                 <input
                   className='bg-white text-gray-800 py-3 px-4 rounded-2xl w-5/6 mb-3 text-center'
@@ -77,10 +77,10 @@ export default function Welcome() {
             </AlertDialogHeader>
             <AlertDialogDescription></AlertDialogDescription>
             <AlertDialogFooter>
-              <AlertDialogCancel className="bg-primary-btn text-white">Cancel</AlertDialogCancel>
+              <AlertDialogCancel className="bg-secondary-btn text-secondary-foreground">Cancel</AlertDialogCancel>
               <AlertDialogAction
                 onClick={handleContinue}
-                className="bg-white text-background"
+                className="bg-primary-btn text-primary-foreground"
               >
                 Continue
               </AlertDialogAction>

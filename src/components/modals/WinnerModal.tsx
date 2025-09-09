@@ -13,24 +13,36 @@ interface WinnerModalProps {
   open: boolean;
   onClose: () => void;
   onReset: () => void;
+  playerX:string;
+  playerO:string;
 }
 
-export default function WinnerModal({ winner, open, onClose, onReset }: WinnerModalProps) {
+export default function WinnerModal({ winner, open, onClose, onReset, playerX ,playerO }: WinnerModalProps) {
   return (
     <AlertDialog open={open} onOpenChange={onClose}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle className="text-center">
-            Player {winner} won!
+          <AlertDialogTitle className="text-center text-primary-foreground">
+            {playerX ? (
+                <span> {playerX} </span>
+            ) : (
+              <span> {winner} </span>          
+            )} 
+            {playerO ? (
+                <span> {playerO} </span>
+            ) : (
+              <span> {winner} </span>          
+            )} 
+            won this round !
           </AlertDialogTitle>
-          <AlertDialogDescription className="text-center">
+          <AlertDialogDescription className="text-center text-secondary-foreground">
             Congratulations 🎉
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogAction
             onClick={onReset}
-            className="mx-auto bg-white text-background"
+            className="mx-auto bg-primary-btn text--primary-foreground"
           >
             Continue
           </AlertDialogAction>

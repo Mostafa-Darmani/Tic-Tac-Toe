@@ -19,7 +19,7 @@ export default function EndModal({ open, onClose, onNewGame }: EndModalProps) {
     <AlertDialog open={open} onOpenChange={onClose}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle className="text-center">
+          <AlertDialogTitle className="text-center text-primary-foreground">
             Are you sure you want to end this game?
           </AlertDialogTitle>
           <AlertDialogDescription></AlertDialogDescription>

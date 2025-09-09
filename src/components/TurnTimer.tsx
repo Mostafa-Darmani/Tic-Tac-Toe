@@ -31,9 +31,9 @@ export default function TurnTimer({ duration = 5000, onTimeout, trigger,isGameSt
   }, [trigger, isGameStarted]);
 
   return (
-    <div className=" bg-gray-300 rounded-full h-3 my-6 w-10/11 overflow-hidden">
+    <div className=" bg-gray-300 rounded-full h-3 w-10/11 overflow-hidden">
       <div
-        className="h-3 bg-gradient-to-l from-red-500 to-red-900 transition-all"
+        className="h-3 bg-gradient-to-l from-cyan-500 to-cyan-900 transition-all"
         style={{ width: `${progress}%` }}
       />
     </div>

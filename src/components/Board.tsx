@@ -4,6 +4,9 @@ import WinEffect from "./WinEffect";
 import { useNavigate } from "react-router-dom";
 import { RotateCcw, Timer, TimerOff } from "lucide-react";
 import TurnTimer from "./TurnTimer";
+import {XIcon} from "../assets/icons/X"
+import {OIcon} from "../assets/icons/O"
+
 
 // مودال‌ها
 import WinnerModal from "./modals/WinnerModal";
@@ -40,7 +43,7 @@ export default function Board() {
   const [winCount, setWinCount] = useState([0, 0]);
   const [playerX, setPlayerX] = useState<string>("");
   const [playerO, setPlayerO] = useState<string>("");
-  const [totalWin, setTotalWin] = useState([0, 0]);
+  const [totalWin, setTotalWin] = useState([1, 0]);
   const [modalType, setModalType] = useState<ModalType>(null);
   const [timerId, setTimerId] = useState<NodeJS.Timeout | null>(null);
   const [showTimer, setShowTimer] = useState<boolean>(false);
@@ -153,35 +156,9 @@ const maxWin:number = parseInt(localStorage.getItem("maxWin") || "3", 10);
   }, [isXNext, squares, showTimer]);
 
   return (
-    <div className="flex-center flex-col">
+    <div className="flex flex-col items-center" >
       {/* بازیکن‌ها + امتیاز دست جاری */}
-      <div className="relative mx-auto flex w-10/11 items-center justify-between gap-10 rounded-2xl border-4 bg-purple-700 p-3">
-        <span
-          className={`${
-            !isXNext
-              ? "bg-background rounded-2xl px-3 py-1 text-white"
-              : "px-3 py-1 text-white"
-          }`}
-        >
-          {playerO} O
-        </span>
-        <div className="flex-center absolute top-0 left-1/2 -translate-1/2 rounded-xl bg-white px-3 py-1 text-xl">
-          <span className="text-purple-400">{winCount[1]}</span>
-          <span className="mx-3 text-purple-400"> - </span>
-          <span className="text-purple-400">{winCount[0]}</span>
-        </div>
-        <span
-          className={`${
-            isXNext
-              ? "bg-background rounded-2xl px-3 py-1 text-white"
-              : "px-3 py-1 text-white"
-          }`}
-        >
-          {playerX} X
-        </span>
-      </div>
-      {/* تایمر */}
-      {showTimer ? 
+      {showTimer &&
         (<TurnTimer
           duration={5000}
           trigger={isXNext ? 1 : 0} // تغییر نوبت باعث ریست تایمر میشه
@@ -189,10 +166,47 @@ const maxWin:number = parseInt(localStorage.getItem("maxWin") || "3", 10);
           isGameStarted={isGameStarted}
         />
         )
-      :
-      <div className="my-5"></div>
+      
       }
+      <div className="flex-center flex-col gap-5 ">
 
+      <div className="relative mx-auto flex w-full items-center justify-between gap-5 rounded-2xl bg-secondary-background p-3">
+        <div
+          className={`${
+            isXNext
+              ? "bg-background rounded-2xl p-2 text-primary-foreground"
+              : "p-2 text-secondary-foreground font-semibold"
+          }`}
+        >
+          <span className="flex justify-center">
+          {playerX}
+          </span>
+          <span>
+          <XIcon/>
+          </span>
+        </div>
+        
+        <div className="flex-center absolute top-0 left-1/2 -translate-1/2 rounded-xl bg-white px-3 py-1 text-xl">
+          <span className="text-secondary-foreground">{winCount[1]}</span>
+          <span className="mx-3 text-secondary-foreground"> - </span>
+          <span className="text-secondary-foreground">{winCount[0]}</span>
+        </div>
+        <div
+          className={`${
+            !isXNext
+              ? "bg-background rounded-2xl p-2 text-primary-foreground"
+              : "p-2 text-secondary-foreground font-semibold"
+          }`}
+        >
+          <span className="flex justify-center">
+          {playerO} 
+          </span>
+          <span>
+            <OIcon/>
+          </span>
+        </div>
+      </div>
+      {/* تایمر */}
       {/* خانه‌های بازی */}
       <div className="grid grid-cols-3 gap-3 bg-white">
         {squares.map((value, i) => (
@@ -204,14 +218,14 @@ const maxWin:number = parseInt(localStorage.getItem("maxWin") || "3", 10);
       <div className="mt-12 flex w-full items-center justify-between">
         <button
           onClick={() => setModalType("end")}
-          className="text-background rounded-2xl bg-white p-4 text-xl font-semibold"
+          className="text-primary-foreground rounded-2xl bg-primary-btn p-4 text-xl font-semibold"
         >
           End this Game
         </button>
         {showTimer ? (
           <button
           onClick={handleShowTimer}
-          className="text-background rounded-2xl bg-white p-4"
+          className="text-secondary-foreground rounded-2xl bg-secondary-btn p-4"
         >
           <TimerOff size={32} />
         </button>
@@ -220,7 +234,7 @@ const maxWin:number = parseInt(localStorage.getItem("maxWin") || "3", 10);
         (
         <button
           onClick={handleShowTimer}
-          className="text-background rounded-2xl bg-white p-4"
+          className="text-primary-foreground  rounded-2xl bg-primary-btn p-4"
         >
           <Timer size={32} />
         </button>
@@ -228,7 +242,7 @@ const maxWin:number = parseInt(localStorage.getItem("maxWin") || "3", 10);
         }
         <button
           onClick={resetBoard}
-          className="text-background rounded-2xl bg-white p-4"
+          className="text-primary-foreground rounded-2xl bg-primary-btn p-4"
         >
           <RotateCcw size={32} />
         </button>
@@ -240,6 +254,8 @@ const maxWin:number = parseInt(localStorage.getItem("maxWin") || "3", 10);
         open={modalType === "winner"}
         onClose={() => setModalType(null)}
         onReset={resetBoard}
+        playerO={playerO}
+        playerX={playerX}
       />
 
       <DrawModal
@@ -267,6 +283,7 @@ const maxWin:number = parseInt(localStorage.getItem("maxWin") || "3", 10);
 
       {/* افکت برد */}
       {modalType === "final" && <WinEffect />}
+      </div>
     </div>
   );
 }

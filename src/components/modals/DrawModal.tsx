@@ -19,17 +19,17 @@ export default function DrawModal({ open, onClose, onReset }: DrawModalProps) {
     <AlertDialog open={open} onOpenChange={onClose}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle className="text-center">
-            Draw!
+          <AlertDialogTitle className="text-primary-foreground">
+          ?!  Draw !?
           </AlertDialogTitle>
           <AlertDialogDescription></AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogAction
             onClick={onReset}
-            className="mx-auto bg-white text-background"
+            className="mx-auto bg-primary-btn text-primary-foreground"
           >
-            Try Again
+            Play Again
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
