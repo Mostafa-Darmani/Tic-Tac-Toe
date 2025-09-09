@@ -5,6 +5,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
+  AlertDialogDescription
 } from "@/components/ui/alert-dialog";
 
 interface EndModalProps {
@@ -21,6 +22,7 @@ export default function EndModal({ open, onClose, onNewGame }: EndModalProps) {
           <AlertDialogTitle className="text-center">
             Are you sure you want to end this game?
           </AlertDialogTitle>
+          <AlertDialogDescription></AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter className="flex flex-col">
           <AlertDialogAction

@@ -5,6 +5,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
+  AlertDialogDescription
 } from "@/components/ui/alert-dialog";
 
 interface FinalModalProps {
@@ -29,6 +30,7 @@ export default function FinalModal({
           <AlertDialogTitle className="text-center">
             {winner} won the game!
           </AlertDialogTitle>
+          <AlertDialogDescription></AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter className="flex flex-col">
           <AlertDialogAction

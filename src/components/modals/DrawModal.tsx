@@ -5,6 +5,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
+  AlertDialogDescription
 } from "@/components/ui/alert-dialog";
 
 interface DrawModalProps {
@@ -18,7 +19,10 @@ export default function DrawModal({ open, onClose, onReset }: DrawModalProps) {
     <AlertDialog open={open} onOpenChange={onClose}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle className="text-center">Draw!</AlertDialogTitle>
+          <AlertDialogTitle className="text-center">
+            Draw!
+          </AlertDialogTitle>
+          <AlertDialogDescription></AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogAction

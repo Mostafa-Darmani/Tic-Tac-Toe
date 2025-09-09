@@ -3,6 +3,7 @@ import Cell from "./Cell";
 import WinEffect from "./WinEffect";
 import { useNavigate } from "react-router-dom";
 import { RotateCcw } from "lucide-react";
+import { Timer } from 'lucide-react';
 import TurnTimer from "./TurnTimer";
 
 // مودال‌ها
@@ -42,15 +43,19 @@ export default function Board() {
   const [playerO, setPlayerO] = useState<string>("");
   const [totalWin, setTotalWin] = useState([0, 0]);
   const [modalType, setModalType] = useState<ModalType>(null);
-
-  // ⏱️ تایمر
   const [timerId, setTimerId] = useState<NodeJS.Timeout | null>(null);
+  const [showTimer, setShowTimer] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
   const winner = calculateWinner(squares);
   const isDraw = !winner && squares.every(Boolean);
+  const isGameStarted =
+    !squares.every((square) => square === null) && !winner && !isDraw;
 
+  const handleShowTimer = () => {
+    setShowTimer(!showTimer)
+  }
   // انتخاب تصادفی
   const makeRandomMove = () => {
     const emptySquares: number[] = [];
@@ -117,11 +122,11 @@ export default function Board() {
       setWinCount([winCount[0], winCount[1] + 1]);
     }
   }, [squares]);
-
+const maxWin:number = parseInt(localStorage.getItem("maxWin") || "3", 10);
   // باز کردن مودال‌ها
   useEffect(() => {
     if (winner) {
-      if (winCount[0] === 2 || winCount[1] === 2) {
+      if (winCount[0] === maxWin || winCount[1] === maxWin) {
         setModalType("final"); // بازی نهایی
       } else {
         setModalType("winner"); // برنده یک دست
@@ -129,12 +134,12 @@ export default function Board() {
     } else if (isDraw) {
       setModalType("draw"); // مساوی
     }
-  }, [squares]);
+  }, [squares, winner, isDraw, winCount, maxWin]);
 
   // ⏱️ مدیریت تایمر برای حرکت خودکار
-  useEffect(() => {
-    if (winner || isDraw) return; // اگه بازی تموم شده، نیازی به تایمر نیست
 
+  useEffect(() => {
+    if (!showTimer || winner || isDraw || squares.every((square) => square === null)) return; // اگه بازی تموم شده، نیازی به تایمر نیست
     const id = setTimeout(() => {
       makeRandomMove();
     }, 5000); // هر بازیکن ۵ ثانیه وقت داره
@@ -144,49 +149,43 @@ export default function Board() {
     return () => {
       if (timerId) clearTimeout(timerId);
     };
-  }, [isXNext, squares]);
+  }, [isXNext, squares, showTimer]);
 
   return (
     <div className="flex-center flex-col">
-      {/* امتیاز کلی */}
-      <div className="flex justify-between gap-42 mx-auto items-center p-1 mb-5">
-        <div className="p-5 bg-white w-fit rounded-full">{totalWin[1]}</div>
-        <div className="p-5 bg-white w-fit rounded-full">{totalWin[0]}</div>
-      </div>
-      
-      {/* تایمر */}
-      <TurnTimer
-        duration={5000}
-        trigger={isXNext ? 1 : 0} // تغییر نوبت باعث ریست تایمر میشه
-        onTimeout={makeRandomMove}
-      />
-
       {/* بازیکن‌ها + امتیاز دست جاری */}
-      <div className="flex items-center justify-between gap-10 w-[300px] mb-14 mx-auto bg-purple-700 p-3 rounded-2xl relative border-4">
+      <div className="relative mx-auto flex w-10/11 items-center justify-between gap-10 rounded-2xl border-4 bg-purple-700 p-3">
         <span
           className={`${
             !isXNext
-              ? "bg-background rounded-2xl text-white py-1 px-3"
-              : "py-1 px-3 text-white"
+              ? "bg-background rounded-2xl px-3 py-1 text-white"
+              : "px-3 py-1 text-white"
           }`}
         >
           {playerO} O
         </span>
-        <div className="flex-center absolute left-1/2 -translate-1/2 top-0 bg-white py-1 px-3 text-xl rounded-xl">
+        <div className="flex-center absolute top-0 left-1/2 -translate-1/2 rounded-xl bg-white px-3 py-1 text-xl">
           <span className="text-purple-400">{winCount[1]}</span>
-          <span className="text-purple-400 mx-3"> - </span>
+          <span className="mx-3 text-purple-400"> - </span>
           <span className="text-purple-400">{winCount[0]}</span>
         </div>
         <span
           className={`${
             isXNext
-              ? "bg-background rounded-2xl text-white py-1 px-3"
-              : "py-1 px-3 text-white"
+              ? "bg-background rounded-2xl px-3 py-1 text-white"
+              : "px-3 py-1 text-white"
           }`}
         >
           {playerX} X
         </span>
       </div>
+      {/* تایمر */}
+      <TurnTimer
+        duration={5000}
+        trigger={isXNext ? 1 : 0} // تغییر نوبت باعث ریست تایمر میشه
+        onTimeout={makeRandomMove}
+        isGameStarted={isGameStarted}
+      />
 
       {/* خانه‌های بازی */}
       <div className="grid grid-cols-3 gap-3 bg-white">
@@ -196,16 +195,22 @@ export default function Board() {
       </div>
 
       {/* کنترل‌ها */}
-      <div className="flex justify-between items-center w-full mt-12">
+      <div className="mt-12 flex w-full items-center justify-between">
         <button
           onClick={() => setModalType("end")}
-          className="p-4 bg-white text-background font-semibold rounded-2xl text-xl"
+          className="text-background rounded-2xl bg-white p-4 text-xl font-semibold"
         >
           End this Game
         </button>
         <button
+          onClick={handleShowTimer}
+          className="text-background rounded-2xl bg-white p-4"
+        >
+          <Timer size={32} />
+        </button>
+        <button
           onClick={resetBoard}
-          className="p-4 bg-white text-background rounded-2xl"
+          className="text-background rounded-2xl bg-white p-4"
         >
           <RotateCcw size={32} />
         </button>
