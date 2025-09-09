@@ -34,31 +34,34 @@ export default function FinalModal({
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle className="text-center">
-            {winner} won the game!
-          </AlertDialogTitle>
-          <AlertDialogDescription className="text-lg flex justify-between items-center w-full gap-5">
-
-            
-            <div className="w-full bg-secondary-btn py-4 text-secondary-foreground text-center rounded-xl">
-              {totalwin[0]} 
+            <div className="flex justify-center items-center gap-3 w-full text-secondary-foreground text-center rounded-xl">
+              <div className="bg-secondary-btn p-5 rounded-xl">
+                {totalwin[0]}
+              </div>     
+              <span>
               -
-              {totalwin[1]} 
+              </span>
+              <div className="bg-secondary-btn p-5 rounded-xl">
+                {totalwin[1]}
+              </div>               
             </div>
-                 
+          </AlertDialogTitle>
+          <AlertDialogDescription className="flex justify-center text-lg items-center w-full gap-5 text-primary-foreground">
+            {winner} won the game!       
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter className="flex flex-col">
           <AlertDialogAction
-            onClick={onNewGame}
-            className="mx-auto bg-white text-background"
-          >
-            Start New Game
-          </AlertDialogAction>
-          <AlertDialogAction
             onClick={onContinue}
-            className="mx-auto bg-white text-background"
+            className="mx-auto bg-secondary-btn text-secondary-foreground"
           >
             Continue
+          </AlertDialogAction>
+          <AlertDialogAction
+            onClick={onNewGame}
+            className="mx-auto bg-primary-btn text-primary-foreground"
+          >
+            Start New Game
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

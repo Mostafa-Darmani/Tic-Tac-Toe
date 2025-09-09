@@ -27,13 +27,13 @@ export default function EndModal({ open, onClose, onNewGame }: EndModalProps) {
         <AlertDialogFooter className="flex flex-col">
           <AlertDialogAction
             onClick={onClose}
-            className="mx-auto bg-white text-background"
+            className="mx-auto bg-secondary-btn text-secondary-foreground"
           >
             Cancel
           </AlertDialogAction>
           <AlertDialogAction
             onClick={onNewGame}
-            className="mx-auto bg-white text-background"
+            className="mx-auto bg-primary-btn text-primary-foreground"
           >
             End Game
           </AlertDialogAction>
