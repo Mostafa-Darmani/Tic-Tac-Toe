@@ -139,11 +139,11 @@ export default function Board() {
 
   // تایمر حرکت خودکار (اگر فعال باشد)
   useEffect(() => {
-    if (mode === "single" && !showTimer && !winner && !isDraw) {
+    if (mode === "single" && showTimer && !winner && !isDraw) {
       const id = setTimeout(() => {
-        const aiMove = getAIMove(squares, difficulty);
+        const aiMove = getAIMove(squares, "easy");
         if (aiMove !== null) handleClick(aiMove);
-      }, 5000);
+      },5000);
       setTimerId(id);
       return () => clearTimeout(id);
     }
@@ -156,8 +156,8 @@ export default function Board() {
           duration={5000}
           trigger={isXNext ? 1 : 0}
           onTimeout={() => {
-            if (mode === "single") {
-              const aiMove = getAIMove(squares, difficulty);
+            if (mode === "single" || mode === "multi") {
+              const aiMove = getAIMove(squares, "easy");
               if (aiMove !== null) handleClick(aiMove);
             }
           }}
@@ -177,18 +177,23 @@ export default function Board() {
             <span className="mx-3 text-secondary-foreground"> - </span>
             <span className="text-secondary-foreground">{winCount[1]}</span>
           </div>
-
           <div className={`${!isXNext ? "bg-background rounded-2xl p-2 text-primary-foreground" : "p-2 text-secondary-foreground font-semibold"}`}>
             <span className="flex justify-center">{playerO}</span>
             <span><OIcon /></span>
           </div>
         </div>
-
+    
         <div className="grid grid-cols-3 gap-3 bg-white">
           {squares.map((value,i) => <Cell key={i} value={value} onClick={() => handleClick(i)} />)}
         </div>
 
-        <div className="flex w-full items-center justify-between">
+      {mode === "single" && (
+        <div className="bg-secondary-background text-secondary-foreground px-4 py-1 text-lg rounded-xl">
+           Game mode : {difficulty}
+        </div>
+      )}
+        
+        <div className="flex w-full items-center justify-between mt-5">
           <button onClick={() => setModalType("end")} className="text-primary-foreground rounded-2xl bg-primary-btn p-4 text-xl font-semibold">End this Game</button>
           {showTimer ? (
             <button onClick={() => setShowTimer(false)} className="text-secondary-foreground rounded-2xl bg-secondary-btn p-4"><TimerOff size={32}/></button>
