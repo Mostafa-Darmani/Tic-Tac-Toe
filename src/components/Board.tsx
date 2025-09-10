@@ -6,6 +6,7 @@ import TurnTimer from "./TurnTimer";
 import { RotateCcw, Timer, TimerOff } from "lucide-react";
 import { XIcon } from "../assets/icons/X";
 import { OIcon } from "../assets/icons/O";
+import { BotIcon } from "../assets/icons/bot";
 
 // مودال‌ها
 import WinnerModal from "./modals/WinnerModal";
@@ -51,6 +52,7 @@ export default function Board() {
   const [modalType, setModalType] = useState<ModalType>(null);
   const [timerId, setTimerId] = useState<NodeJS.Timeout | null>(null);
   const [showTimer, setShowTimer] = useState(false);
+  const [finalWinner, setFinalWinner] = useState<string | null>(null);
 
   const [playerX, setPlayerX] = useState('');
   const [playerO, setPlayerO] = useState('');
@@ -127,6 +129,7 @@ export default function Board() {
   useEffect(() => {
     if (winner) {
       if (winCount[0] === maxWin || winCount[1] === maxWin) {
+        setFinalWinner(winner);
         setModalType("final");
         WinBoard();
       } else {
@@ -168,7 +171,7 @@ export default function Board() {
       <div className="flex-center flex-col gap-5">
         <div className="relative mx-auto flex w-full items-center justify-between gap-5 rounded-2xl bg-secondary-background p-3">
           <div className={`${isXNext ? "bg-background rounded-2xl p-2 text-primary-foreground" : "p-2 text-secondary-foreground font-semibold"}`}>
-            <span className="flex justify-center">{playerX}</span>
+            <span className="flex justify-center">{playerX || "You"}</span>
             <span><XIcon /></span>
           </div>
 
@@ -178,7 +181,7 @@ export default function Board() {
             <span className="text-secondary-foreground">{winCount[1]}</span>
           </div>
           <div className={`${!isXNext ? "bg-background rounded-2xl p-2 text-primary-foreground" : "p-2 text-secondary-foreground font-semibold"}`}>
-            <span className="flex justify-center">{playerO}</span>
+            <span className="flex justify-center">{playerO || <BotIcon />}</span>
             <span><OIcon /></span>
           </div>
         </div>
@@ -193,7 +196,7 @@ export default function Board() {
         </div>
       )}
         
-        <div className="flex w-full items-center justify-between mt-5">
+        <div className="flex w-full items-center justify-between">
           <button onClick={() => setModalType("end")} className="text-primary-foreground rounded-2xl bg-primary-btn p-4 text-xl font-semibold">End this Game</button>
           {showTimer ? (
             <button onClick={() => setShowTimer(false)} className="text-secondary-foreground rounded-2xl bg-secondary-btn p-4"><TimerOff size={32}/></button>
@@ -206,7 +209,7 @@ export default function Board() {
         {/* مودال‌ها */}
         <WinnerModal winner={winner} open={modalType==="winner"} onClose={() => setModalType(null)} onReset={resetBoard} playerO={playerO} playerX={playerX} />
         <DrawModal open={modalType==="draw"} onClose={() => setModalType(null)} onReset={resetBoard} />
-        <FinalModal winner={winner} totalwin={totalWin} playerX={playerX} playerO={playerO} open={modalType==="final"} onClose={() => setModalType(null)} onNewGame={NewBoard} onContinue={resetBoard} />
+        <FinalModal winner={finalWinner} totalwin={totalWin} playerX={playerX} playerO={playerO} open={modalType==="final"} onClose={() => setModalType(null)} onNewGame={NewBoard} onContinue={resetBoard} />
         <EndModal open={modalType==="end"} onClose={() => setModalType(null)} onNewGame={NewBoard} />
 
         {modalType==="final" && <WinEffect />}

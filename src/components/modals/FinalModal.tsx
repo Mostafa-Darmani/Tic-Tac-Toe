@@ -22,11 +22,17 @@ interface FinalModalProps {
 export default function FinalModal({
   winner,
   totalwin,
+  playerX,
+  playerO,
   open,
   onClose,
   onNewGame,
   onContinue,
 }: FinalModalProps) {
+  const handleWinner = () => {
+    if (winner === "X") return playerX || winner
+    else return playerO || winner
+    }
   return (
     <AlertDialog open={open} onOpenChange={onClose}>
       <AlertDialogContent>
@@ -45,7 +51,7 @@ export default function FinalModal({
             </div>
           </AlertDialogTitle>
           <AlertDialogDescription className="flex justify-center text-lg items-center w-full gap-5 text-primary-foreground">
-            {winner} won the game!       
+            {handleWinner()} won the game!       
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter className="flex flex-col">

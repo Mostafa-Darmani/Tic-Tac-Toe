@@ -96,14 +96,14 @@ export default function Welcome() {
                   onChange={(e) => setPlayerO(e.target.value)}
                 />
                 <AlertDialogTitle></AlertDialogTitle>
-                <div className='flex justify-between items-center w-5/6'>
+                <div className='flex justify-between items-center w-5/6 md:justify-center md:gap-5'>
                   <label htmlFor="maxwin" className="font-semibold text-lg"> Enter max win :</label> 
                 <input
                   id='maxwin'
                   type="text"
                   inputMode="numeric"
                   pattern="[0-9]*"     
-                  className='bg-white text-gray-500 py-3 px-4 rounded-2xl w-[90px]  text-center placeholder:text-sm '
+                  className='bg-white text-gray-500 py-3 px-4 rounded-2xl w-[90px]  text-center placeholder:text-sm md:justify-center md:gap-5'
                   placeholder="[ 3 ]"
                   value={maxWinInput}
                   onChange={(e) => {
@@ -169,15 +169,15 @@ export default function Welcome() {
                 />
                 <label htmlFor="difficulty" className='font-semibold text-2xl'>Choose the difficulty</label>
                 <div className='flex justify-center items-center gap-3 w-full'>                
-                  <button className='bg-primary-btn text-primary-foreground py-3 px-4 w-5/6 rounded-2xl text-center focus:border-2'
+                  <button className='bg-primary-btn text-primary-foreground py-3 px-4 w-5/6 rounded-2xl text-center focus:border-3'
                   onClick={() => handleAI("easy")}>
                     Easy
                   </button>
-                  <button className='bg-primary-btn text-primary-foreground py-3 px-4 w-5/6 rounded-2xl text-center focus:border-2'
+                  <button className='bg-primary-btn text-primary-foreground py-3 px-4 w-5/6 rounded-2xl text-center focus:border-3'
                   onClick={() => handleAI("normal")}>
                     Normal
                   </button>
-                  <button className='bg-primary-btn text-primary-foreground py-3 px-4 w-5/6 rounded-2xl text-center focus:border-2'
+                  <button className='bg-primary-btn text-primary-foreground py-3 px-4 w-5/6 rounded-2xl text-center focus:border-3'
                   onClick={() => handleAI("hard")}>
                     Hard
                   </button>
