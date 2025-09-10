@@ -22,8 +22,6 @@ interface FinalModalProps {
 export default function FinalModal({
   winner,
   totalwin,
-  playerX,
-  playerO,
   open,
   onClose,
   onNewGame,

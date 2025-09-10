@@ -19,7 +19,7 @@ export default function DrawModal({ open, onClose, onReset }: DrawModalProps) {
     <AlertDialog open={open} onOpenChange={onClose}>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle className="text-primary-foreground">
+          <AlertDialogTitle className="text-primary-foreground text-center">
           ?!  Draw !?
           </AlertDialogTitle>
           <AlertDialogDescription></AlertDialogDescription>
