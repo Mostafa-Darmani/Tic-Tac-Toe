@@ -17,6 +17,7 @@ export default function Welcome() {
   const [playerX, setPlayerX] = useState<string>('');
   const [playerO, setPlayerO] = useState<string>('');
   const [maxWin, setMaxwin] = useState<number>(3)
+  const [Difficulty, setDifficulty] = useState(false)
   const navigate = useNavigate();
 
   const handleContinue = () => {
@@ -27,16 +28,36 @@ export default function Welcome() {
     navigate('/game');
   };
 
+    const handleAI = (difficulty : string) => {
+    if (difficulty === "easy") {
+        localStorage.setItem("difficulty","easy");
+      }else if (difficulty === "normal") {
+        localStorage.setItem("difficulty","normal");
+      }else {
+      localStorage.setItem("difficulty","hard");
+      }
+    navigate("/game")
+  }
+
+
   return (
     <div className="flex justify-center min-h-screen text-primary-foreground bg-background pt-10">
       <div className='flex flex-col items-center m-12 md:my-auto'>      
         <h1 className='text-5xl sm:text-6xl font-bold leading-18'>Lets play the <br/>Tic-Tac-Toe Game !</h1>
+        <div className='flex flex-col gap-7'>    
         <button
           className='bg-primary-btn text-primary-foreground text-2xl px-7 py-2 rounded-3xl font-bold hover:bg-secondary-btn hover:text-secondary-foreground transition transform hover:scale-105 active:scale-95 mt-14 max-w-[350px] '
           onClick={() => setAlert(true)}
         >
-          Start New Game
+          Multiplayer
         </button>
+        <button
+          className='bg-primary-btn text-primary-foreground text-2xl px-7 py-2 rounded-3xl font-bold hover:bg-secondary-btn hover:text-secondary-foreground transition transform hover:scale-105 active:scale-95 max-w-[350px] '
+          onClick={() => setDifficulty(true)}
+        >
+          Play with AI
+        </button>
+        </div>
       </div>
 
       {alert && (
@@ -84,6 +105,34 @@ export default function Welcome() {
               >
                 Continue
               </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      )}
+      {Difficulty && (
+        <AlertDialog open={Difficulty} onOpenChange={setDifficulty}>
+          <AlertDialogContent className="bg-background">
+            <AlertDialogHeader>
+              <AlertDialogTitle className="text-center mb-4">choose Difficulty</AlertDialogTitle>
+              <div className='flex flex-col gap-2 items-center'>
+                <button className='bg-secondary-btn text-secondary-foreground py-3 px-4 w-5/6 rounded-2xl text-center'
+                onClick={() => handleAI("easy")}>
+                  Easy
+                </button>
+                <button className='bg-secondary-btn text-secondary-foreground py-3 px-4 w-5/6 rounded-2xl text-center'
+                 onClick={() => handleAI("normal")}>
+                  Normal
+                </button>
+                <button className='bg-secondary-btn text-secondary-foreground py-3 px-4 w-5/6 rounded-2xl text-center'
+                 onClick={() => handleAI("hard")}>
+                  Hard
+                </button>
+
+              </div>
+            </AlertDialogHeader>
+            <AlertDialogDescription></AlertDialogDescription>
+            <AlertDialogFooter>
+              <AlertDialogCancel className="bg-primary-btn text-primary-foreground">Cancel</AlertDialogCancel>
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
