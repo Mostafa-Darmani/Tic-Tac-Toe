@@ -16,7 +16,8 @@ export default function Welcome() {
   const [alert, setAlert] = useState(false);
   const [playerX, setPlayerX] = useState<string>('');
   const [playerO, setPlayerO] = useState<string>('');
-  const [maxWin, setMaxwin] = useState<number>(3)
+  const [maxWin, setMaxWin] = useState<number>(3)
+  const [maxWinInput, setMaxWinInput] = useState<string>('');
   const [Difficulty, setDifficulty] = useState(false)
   const navigate = useNavigate();
 
@@ -87,10 +88,16 @@ export default function Welcome() {
                   pattern="[0-9]*"    // برای iOS — کیبورد عددی
                   className='bg-white text-gray-800 py-3 px-4 rounded-2xl w-5/6 mb-3 text-center'
                   placeholder="Enter only numbers"
+                  value={maxWinInput}
                   onChange={(e) => {
                     const value = e.target.value;
                     if (/^\d*$/.test(value)) {
-                      setMaxwin(Number(value));
+                      setMaxWinInput(value);
+                      if (value === '') {
+                        setMaxWin(3);
+                      } else {
+                        setMaxWin(Number(value));
+                      }
                     }
                   }}
                 />
