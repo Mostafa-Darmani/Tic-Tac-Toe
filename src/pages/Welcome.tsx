@@ -54,7 +54,7 @@ export default function Welcome() {
   return (
     <div className="flex justify-center min-h-screen text-primary-foreground bg-background pt-10">
       <div className='flex flex-col items-center m-12 md:my-auto'>      
-        <h1 className='text-5xl sm:text-6xl font-bold leading-18'>Lets play the <br/>Tic-Tac-Toe Game !</h1>
+        <h1 className='text-5xl sm:text-6xl font-bold leading-18'>Lets play the <br/>Tic-Tac-Toe Game!</h1>
         <div className='flex flex-col gap-7'>    
         <button
           className='bg-primary-btn text-primary-foreground text-2xl px-7 py-2 rounded-3xl font-bold hover:bg-secondary-btn hover:text-secondary-foreground transition transform hover:scale-105 active:scale-95 mt-14 max-w-[350px] '
@@ -75,29 +75,36 @@ export default function Welcome() {
         <AlertDialog open={alert} onOpenChange={setAlert}>
           <AlertDialogContent className="bg-background">
             <AlertDialogHeader>
-              <AlertDialogTitle className="text-center mb-4">Enter your names:</AlertDialogTitle>
-              <div className='flex flex-col items-center'>
+              <div className='flex flex-col items-center gap-1 text-primary-foreground'>
+              <AlertDialogTitle></AlertDialogTitle>
+              <label htmlFor="nameX" className='text-lg font-semibold'>player X :</label>
                 <input
-                  className='bg-white text-gray-800 py-3 px-4 rounded-2xl w-5/6 mb-3 text-center'
+                  id='nameX'
+                  className='bg-white text-gray-500 py-3 px-4 rounded-2xl w-5/6 mb-3 text-center  placeholder:text-xs'
                   type='text'
                   placeholder='X name...'
                   value={playerX}
                   onChange={(e) => setPlayerX(e.target.value)}
                 />
+                <label htmlFor="nameO" className='text-lg font-semibold'>Player O :</label>
                 <input
-                  className='bg-white text-gray-800 py-3 px-4 rounded-2xl w-5/6 mb-3 text-center'
+                  id='nameO'
+                  className='bg-white text-gray-500 py-3 px-4 rounded-2xl w-5/6 mb-3 text-center placeholder:text-xs'
                   type='text'
                   placeholder='O name...'
                   value={playerO}
                   onChange={(e) => setPlayerO(e.target.value)}
                 />
-                <AlertDialogTitle className="text-center text-white mb-4">Enter max win:</AlertDialogTitle>
+                <AlertDialogTitle></AlertDialogTitle>
+                <div className='flex justify-between items-center w-5/6'>
+                  <label htmlFor="maxwin" className="font-semibold text-lg"> Enter max win :</label> 
                 <input
+                  id='maxwin'
                   type="text"
-                  inputMode="numeric" // کیبورد عددی در موبایل
-                  pattern="[0-9]*"    // برای iOS — کیبورد عددی
-                  className='bg-white text-gray-800 py-3 px-4 rounded-2xl w-5/6 mb-3 text-center'
-                  placeholder="Enter only numbers"
+                  inputMode="numeric"
+                  pattern="[0-9]*"     
+                  className='bg-white text-gray-500 py-3 px-4 rounded-2xl w-[90px]  text-center placeholder:text-sm '
+                  placeholder="[ 3 ]"
                   value={maxWinInput}
                   onChange={(e) => {
                     const value = e.target.value;
@@ -111,6 +118,7 @@ export default function Welcome() {
                     }
                   }}
                 />
+                </div>
               </div>
             </AlertDialogHeader>
             <AlertDialogDescription></AlertDialogDescription>
