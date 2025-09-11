@@ -87,7 +87,16 @@ export default function Board() {
     setSquares(nextSquares);
     setIsXNext(!isXNext);
   };
-
+  const handleProfiles = (player:string) => {
+    if (mode === "single"){
+      if (player === "X") return playerX || "You";
+      else return playerO || <BotIcon />;
+    }
+    else{
+      if (player === "X") return playerX;
+      else return playerO;
+    }
+  }
   // حرکت AI (فقط اگر حالت single باشد و نوبت O باشد)
   useEffect(() => {
     if (mode === "single" && !winner && !isXNext) {
@@ -171,7 +180,7 @@ export default function Board() {
       <div className="flex-center flex-col gap-5">
         <div className="relative mx-auto flex w-full items-center justify-between gap-5 rounded-2xl bg-secondary-background p-3">
           <div className={`${isXNext ? "bg-background rounded-2xl p-2 text-primary-foreground" : "p-2 text-secondary-foreground font-semibold"}`}>
-            <span className="flex justify-center">{playerX || "You"}</span>
+            <span className="flex justify-center">{handleProfiles("X")}</span>
             <span><XIcon /></span>
           </div>
 
@@ -181,7 +190,7 @@ export default function Board() {
             <span className="text-secondary-foreground">{winCount[1]}</span>
           </div>
           <div className={`${!isXNext ? "bg-background rounded-2xl p-2 text-primary-foreground" : "p-2 text-secondary-foreground font-semibold"}`}>
-            <span className="flex justify-center">{playerO || <BotIcon />}</span>
+            <span className="flex justify-center">{handleProfiles("O")}</span>
             <span><OIcon /></span>
           </div>
         </div>
