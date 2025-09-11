@@ -50,7 +50,6 @@ export default function Board() {
   const [winCount, setWinCount] = useState([0,0]);
   const [totalWin, setTotalWin] = useState([0,0]);
   const [modalType, setModalType] = useState<ModalType>(null);
-  const [timerId, setTimerId] = useState<NodeJS.Timeout | null>(null);
   const [showTimer, setShowTimer] = useState(false);
   const [finalWinner, setFinalWinner] = useState<string | null>(null);
 
@@ -79,9 +78,6 @@ export default function Board() {
   // کلیک بازیکن
   const handleClick = (index: number) => {
     if (squares[index] || winner) return;
-
-    if (timerId) clearTimeout(timerId);
-
     const nextSquares = squares.slice();
     nextSquares[index] = isXNext ? "X" : "O";
     setSquares(nextSquares);
@@ -149,35 +145,21 @@ export default function Board() {
     }
   }, [squares, winner, isDraw, winCount, maxWin]);
 
-  // تایمر حرکت خودکار (اگر فعال باشد)
-  useEffect(() => {
-    if (mode === "single" && showTimer && !winner && !isDraw) {
-      const id = setTimeout(() => {
-        const aiMove = getAIMove(squares, "easy");
-        if (aiMove !== null) handleClick(aiMove);
-      },5000);
-      setTimerId(id);
-      return () => clearTimeout(id);
-    }
-  }, [squares, isXNext, showTimer, winner, isDraw, difficulty, mode]);
-
   return (
-    <div className="flex flex-col items-center">
+    <div className={`flex flex-col items-center ${showTimer || "mt-3"}`}>
       {showTimer && (
         <TurnTimer
           duration={5000}
           trigger={isXNext ? 1 : 0}
           onTimeout={() => {
-            if (mode === "single" || mode === "multi") {
-              const aiMove = getAIMove(squares, "easy");
-              if (aiMove !== null) handleClick(aiMove);
-            }
+            const randomMove = getAIMove(squares, "easy");
+            if (randomMove !== null) handleClick(randomMove);
           }}
           isGameStarted={isGameStarted}
         />
       )}
 
-      <div className="flex-center flex-col gap-5">
+      <div className={`flex-center flex-col ${mode === "single" ? "gap-3" : "gap-5"}`}>
         <div className="relative mx-auto flex w-full items-center justify-between gap-5 rounded-2xl bg-secondary-background p-3">
           <div className={`${isXNext ? "bg-background rounded-2xl p-2 text-primary-foreground" : "p-2 text-secondary-foreground font-semibold"}`}>
             <span className="flex justify-center">{handleProfiles("X")}</span>
