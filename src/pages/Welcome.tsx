@@ -10,6 +10,7 @@ import {
   AlertDialogCancel,
   AlertDialogDescription
 } from "@/components/ui/alert-dialog";
+import DifficultySlider from "@/components/DifficultySlider";
 import { useNavigate } from 'react-router-dom';
 
 export default function Welcome() {
@@ -18,7 +19,8 @@ export default function Welcome() {
   const [playerO, setPlayerO] = useState<string>('');
   const [maxWin, setMaxWin] = useState<number>(3)
   const [maxWinInput, setMaxWinInput] = useState<string>('');
-  const [Difficulty, setDifficulty] = useState(false)
+  const [hasDifficulty, setHasDifficulty] = useState(false)
+  const [difficulty, setDifficulty] = useState(1)
   const navigate = useNavigate();
 
 
@@ -26,6 +28,13 @@ export default function Welcome() {
     localStorage.setItem("mode", "single");
     localStorage.setItem('playerX', playerX.trim());
     localStorage.setItem("maxWin", (maxWin && maxWin > 0 ? maxWin : 3).toString());
+    if (difficulty === 1) {
+        localStorage.setItem("difficulty","easy");
+    }else if (difficulty === 2) {
+      localStorage.setItem("difficulty","normal");
+    }else {
+    localStorage.setItem("difficulty","hard");
+    }
     setAlert(false);
     navigate('/game');
   };
@@ -38,18 +47,6 @@ export default function Welcome() {
     setAlert(false);
     navigate('/game');
   };
-
-    const handleAI = (difficulty : string) => {
-      localStorage.setItem("mode", "single");
-    if (difficulty === "easy") {
-        localStorage.setItem("difficulty","easy");
-      }else if (difficulty === "normal") {
-        localStorage.setItem("difficulty","normal");
-      }else {
-      localStorage.setItem("difficulty","hard");
-      }
-  }
-
 
   return (
     <div className="flex justify-center min-h-screen text-primary-foreground bg-background pt-10">
@@ -64,7 +61,7 @@ export default function Welcome() {
         </button>
         <button
           className='bg-primary-btn text-primary-foreground text-2xl px-7 py-2 rounded-3xl font-bold hover:bg-secondary-btn hover:text-secondary-foreground transition transform hover:scale-105 active:scale-95 max-w-[350px] '
-          onClick={() => setDifficulty(true)}
+          onClick={() => setHasDifficulty(true)}
         >
           Play with AI
         </button>
@@ -82,6 +79,7 @@ export default function Welcome() {
                   id='nameX'
                   className='bg-white text-gray-500 py-3 px-4 rounded-2xl w-5/6 mb-3 text-center  placeholder:text-xs'
                   type='text'
+                  maxLength={14}
                   placeholder='X name...'
                   value={playerX}
                   onChange={(e) => setPlayerX(e.target.value)}
@@ -91,6 +89,7 @@ export default function Welcome() {
                   id='nameO'
                   className='bg-white text-gray-500 py-3 px-4 rounded-2xl w-5/6 mb-3 text-center placeholder:text-xs'
                   type='text'
+                  maxLength={14}
                   placeholder='O name...'
                   value={playerO}
                   onChange={(e) => setPlayerO(e.target.value)}
@@ -134,8 +133,8 @@ export default function Welcome() {
           </AlertDialogContent>
         </AlertDialog>
       )}
-      {Difficulty && (
-        <AlertDialog open={Difficulty} onOpenChange={setDifficulty}>
+      {hasDifficulty && (
+        <AlertDialog open={hasDifficulty} onOpenChange={setHasDifficulty}>
           <AlertDialogContent className="bg-background">
             <AlertDialogHeader>
               <AlertDialogTitle className="text-center text-primary-foreground">Enter your name</AlertDialogTitle>
@@ -143,6 +142,7 @@ export default function Welcome() {
                 <input
                   className='bg-white text-gray-800 py-3 px-4 rounded-2xl w-5/6 mb-3 text-center'
                   type='text'
+                  maxLength={7}
                   placeholder='Enter your name ... '
                   value={playerX}
                   onChange={(e) => setPlayerX(e.target.value)}
@@ -167,22 +167,10 @@ export default function Welcome() {
                     }
                   }}
                 />
-                <label htmlFor="difficulty" className='font-semibold text-2xl'>Choose the difficulty</label>
-                <div className='flex justify-center items-center gap-3 w-full'>                
-                  <button className='bg-primary-btn text-primary-foreground py-3 px-4 w-5/6 rounded-2xl text-center focus:border-3'
-                  onClick={() => handleAI("easy")}>
-                    Easy
-                  </button>
-                  <button className='bg-primary-btn text-primary-foreground py-3 px-4 w-5/6 rounded-2xl text-center focus:border-3'
-                  onClick={() => handleAI("normal")}>
-                    Normal
-                  </button>
-                  <button className='bg-primary-btn text-primary-foreground py-3 px-4 w-5/6 rounded-2xl text-center focus:border-3'
-                  onClick={() => handleAI("hard")}>
-                    Hard
-                  </button>
+                <div className="flex flex-col items-center gap-4 w-full">
+                  <label className="font-semibold text-2xl">Choose the difficulty</label>
+                  <DifficultySlider value={difficulty} onChange={setDifficulty} />
                 </div>
-
               </div>
             </AlertDialogHeader>
             <AlertDialogDescription></AlertDialogDescription>
