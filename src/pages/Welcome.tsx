@@ -142,7 +142,7 @@ export default function Welcome() {
                 <input
                   className='bg-white text-gray-800 py-3 px-4 rounded-2xl w-5/6 mb-3 text-center'
                   type='text'
-                  maxLength={7}
+                  maxLength={14}
                   placeholder='Enter your name ... '
                   value={playerX}
                   onChange={(e) => setPlayerX(e.target.value)}
