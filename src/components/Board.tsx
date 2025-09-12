@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import Cell from "./Cell";
 import WinEffect from "./WinEffect";
@@ -55,7 +55,8 @@ export default function Board() {
 
   const [playerX, setPlayerX] = useState('');
   const [playerO, setPlayerO] = useState('');
-
+  const xRef = useRef<HTMLDivElement>(null);
+  const oRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
   const winner = calculateWinner(squares);
@@ -146,34 +147,57 @@ export default function Board() {
   }, [squares, winner, isDraw, winCount, maxWin]);
 
   return (
-    <div className={`flex flex-col items-center ${showTimer || "mt-3"}`}>
-      {showTimer && (
-        <TurnTimer
-          duration={5000}
-          trigger={isXNext ? 1 : 0}
-          onTimeout={() => {
-            const randomMove = getAIMove(squares, "easy");
-            if (randomMove !== null) handleClick(randomMove);
-          }}
-          isGameStarted={isGameStarted}
-        />
-      )}
+    <div className={`flex flex-col items-center`}>
+      <div className={`flex-center flex-col ${mode === "single" ? "gap-2" : "gap-5"}`}>
+        <div className="relative mx-auto flex w-full items-center justify-between rounded-2xl bg-secondary-background p-3 mt-4">
+          <div className="relative">
+            <div
+              ref={xRef}
+              className={`flex-center flex-col ml-1.5 mt-1.5 p-2 ${isXNext ? "bg-background rounded-2xl text-primary-foreground" : "text-secondary-foreground"}`}
+            >
+              <span className="break-words text-center max-w-[7rem]">{handleProfiles("X")}</span>
+              <span><XIcon /></span>
+            </div>
 
-      <div className={`flex-center flex-col ${mode === "single" ? "gap-3" : "gap-5"}`}>
-        <div className="relative mx-auto flex w-full items-center justify-between gap-5 rounded-2xl bg-secondary-background p-3">
-          <div className={`${isXNext ? "bg-background rounded-2xl p-2 text-primary-foreground" : "p-2 text-secondary-foreground font-semibold"}`}>
-            <span className="flex justify-center">{handleProfiles("X")}</span>
-            <span><XIcon /></span>
+            {(showTimer && isXNext && !modalType) && (
+              <TurnTimer
+                targetRef={xRef} // 👈 پاس دادن ref
+                duration={5000}
+                trigger={isXNext ? 1 : 0}
+                onTimeout={() => {
+                  const randomMove = getAIMove(squares, "easy");
+                  if (randomMove !== null) handleClick(randomMove);
+                }}
+                isGameStarted={isGameStarted}
+              />
+            )}
           </div>
-
-          <div className="flex-center absolute top-0 left-1/2 -translate-1/2 rounded-xl bg-white px-3 py-1 text-xl">
+          <div className="z-2 flex-center absolute top-0 left-1/2 -translate-1/2 rounded-xl bg-white px-3 py-1 text-xl">
             <span className="text-secondary-foreground">{winCount[0]}</span>
             <span className="mx-3 text-secondary-foreground"> - </span>
             <span className="text-secondary-foreground">{winCount[1]}</span>
           </div>
-          <div className={`${!isXNext ? "bg-background rounded-2xl p-2 text-primary-foreground" : "p-2 text-secondary-foreground font-semibold"}`}>
-            <span className="flex justify-center">{handleProfiles("O")}</span>
-            <span><OIcon /></span>
+            <div className="relative">
+            <div
+              ref={oRef}
+              className={`flex-center flex-col ml-1.5 mt-1.5 p-2 ${!isXNext ? "bg-background rounded-2xl text-primary-foreground" : "text-secondary-foreground"}`}
+            >
+              <span className="break-words text-center max-w-[7rem]">{handleProfiles("O")}</span>
+              <span><OIcon /></span>
+            </div>
+
+            {(showTimer && !isXNext && !modalType && mode !== "single") && (
+              <TurnTimer
+                targetRef={oRef} // 👈 پاس دادن ref
+                duration={5000}
+                trigger={isXNext ? 1 : 0}
+                onTimeout={() => {
+                  const randomMove = getAIMove(squares, "easy");
+                  if (randomMove !== null) handleClick(randomMove);
+                }}
+                isGameStarted={isGameStarted}
+              />
+            )}
           </div>
         </div>
     
